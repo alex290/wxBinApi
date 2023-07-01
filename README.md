@@ -27,12 +27,12 @@ binApi->fapi->Bind(BAPI_RET_DATA, &<Название текущего класс
 
 ### Тип данных REST
 
-RestEventData::TypeRestEvent::NONE                // Нет типа
-RestEventData::TypeRestEvent::PING                // https://binance-docs.github.io/apidocs/futures/en/#test-connectivity
-RestEventData::TypeRestEvent::CheckServerTime     // https://binance-docs.github.io/apidocs/futures/en/#check-server-time
-RestEventData::TypeRestEvent::ExchangeInformation // https://binance-docs.github.io/apidocs/futures/en/#exchange-information
+* RestEventData::TypeRestEvent::NONE                // Нет типа
+* RestEventData::TypeRestEvent::PING                // https://binance-docs.github.io/apidocs/futures/en/#test-connectivity
+* RestEventData::TypeRestEvent::CheckServerTime     // https://binance-docs.github.io/apidocs/futures/en/#check-server-time
+* RestEventData::TypeRestEvent::ExchangeInformation // https://binance-docs.github.io/apidocs/futures/en/#exchange-information
 
-Функция получения событий
+### Функция получения событий
 
 ```
 void <Название текущего класса>::LoadData(RestEventData& event){
