@@ -28,7 +28,7 @@ find_package(CURL REQUIRED)
 file(GLOB project
     *
     data/*
-    data/events*
+    data/events/*
     data/dopformat/*
     data/network/*
     rest/*

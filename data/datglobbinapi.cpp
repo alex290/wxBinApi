@@ -2,10 +2,12 @@
 
 DatGlobBinApi::DatGlobBinApi()
 {
+    network = new BinApiNetwork();
 }
 
 DatGlobBinApi::~DatGlobBinApi()
 {
+    delete network;
 }
 std::string DatGlobBinApi::hmacEncode(std::string param, std::string secret)  // Получаем HMAC кодировку
 {

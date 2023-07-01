@@ -1,11 +1,18 @@
-#ifndef MARKETDATAENDPOINTS_H
-#define MARKETDATAENDPOINTS_H
+#ifndef BAPIMARKETDATA_H
+#define BAPIMARKETDATA_H
 
 #include <wx/wx.h>
 
-class MarketDataEndpoints
+class BapiMarketData
 {
 public:
+    enum TypeRestEvent
+    {
+        NONE,
+        PING,
+        CheckServerTime,
+        ExchangeInformation
+    };
     struct CandlestickDataMarket  // Kline/candlestick bars for a symbol. Klines are uniquely identified by their open time
     {
         time_t openTime;             // Open time
@@ -20,9 +27,8 @@ public:
         double buyAssetVolume;       // Taker buy base asset volume
         double buyQuoteAssetVolume;  // Taker buy quote asset volume
     };
-
-    MarketDataEndpoints();
-    ~MarketDataEndpoints();
+    BapiMarketData();
+    ~BapiMarketData();
 
 private:
 };

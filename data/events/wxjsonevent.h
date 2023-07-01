@@ -5,6 +5,7 @@
 #include <string>
 #include "../dopformat/binjson.h"
 
+
 class wxJsonEvent : public wxEvent
 {
 public:
