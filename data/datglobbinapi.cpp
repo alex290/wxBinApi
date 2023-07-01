@@ -3,6 +3,8 @@
 DatGlobBinApi::DatGlobBinApi()
 {
     network = new BinApiNetwork();
+    network->Bind(BinApi_RETURN_DATA, &DatGlobBinApi::returnData, this);
+    network->Bind(BinApi_RETURN_ERROR, &DatGlobBinApi::returnError, this);
 }
 
 DatGlobBinApi::~DatGlobBinApi()
@@ -33,4 +35,37 @@ std::string DatGlobBinApi::hmacEncode(std::string param, std::string secret)  //
         strcat(buf, tmp);
     }
     return std::string(buf);
+}
+
+void DatGlobBinApi::GetUrl(std::string idRequest, std::string url)
+{
+    network->GetRequest(url, idRequest);
+}
+
+void DatGlobBinApi::returnData(BinApiNetworkEvent& event)
+{
+    std::vector<std::string> idReq = FormatDop::splitStr(event.getIdRequest(), "_");
+    if (idReq.size() == 2)
+    {
+        if (idReq[0] == "FAPI")  // Возвращаем данные в класс FuturesRestApi
+        {
+            Bapi::Json data = BinJson::parse(event.getData());
+            RestEventData::TypeRestEvent typeRest = static_cast<RestEventData::TypeRestEvent>(std::stoi(idReq[1]));
+            fapiRet(data, typeRest);
+        }
+    }
+}
+
+void DatGlobBinApi::returnError(BinApiNetworkEvent& event)
+{
+    std::vector<std::string> idReq = FormatDop::splitStr(event.getIdRequest(), "_");
+    if (idReq.size() == 2)
+    {
+        if (idReq[0] == "FAPI")  // Возвращаем данные в класс FuturesRestApi
+        {
+            Bapi::Json data = BinJson::parse(event.getData());
+            RestEventData::TypeRestEvent typeRest = static_cast<RestEventData::TypeRestEvent>(std::stoi(idReq[1]));
+            fapiRetErr(data, event.getData(), typeRest);
+        }
+    }
 }

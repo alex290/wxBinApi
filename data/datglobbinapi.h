@@ -10,6 +10,8 @@
 #include "network/binapinetwork.h"
 #include <functional>
 #include "dopformat/binjson.h"
+#include "events/resteventdata.h"
+#include "dopformat/formatdop.h"
 
 class DatGlobBinApi
 {
@@ -22,9 +24,12 @@ public:
     DatGlobBinApi();
     ~DatGlobBinApi();
 
-    std::function<void(Bapi::Json)> fapiRet;
+    std::function<void(Bapi::Json, RestEventData::TypeRestEvent)> fapiRet;
+    std::function<void(Bapi::Json, std::string, RestEventData::TypeRestEvent)> fapiRetErr;
 
     static std::string hmacEncode(std::string param, std::string secret);  // Получаем HMAC кодировку
+
+    void GetUrl(std::string idRequest, std::string url);
 
 private:
     BinApiNetwork* network;
