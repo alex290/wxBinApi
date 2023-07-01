@@ -8,14 +8,14 @@
 class wxJsonEvent : public wxEvent
 {
 public:
-    wxJsonEvent(wxEventType eventType, std::string text, Json data) : wxEvent(wxID_ANY, eventType), text_(text), data_(data)
+    wxJsonEvent(wxEventType eventType, std::string text, Bapi::Json data) : wxEvent(wxID_ANY, eventType), text_(text), data_(data)
     {
     }
     std::string getText()
     {
         return text_;
     };
-    Json getData()
+    Bapi::Json getData()
     {
         return data_;
     };
@@ -27,7 +27,7 @@ public:
     }
 
 private:
-    Json data_;
+    Bapi::Json data_;
     std::string text_;
 };
 

@@ -7,21 +7,21 @@ BinJson::BinJson()
 BinJson::~BinJson()
 {
 }
-Json BinJson::parse(std::string text)
+Bapi::Json BinJson::parse(std::string text)
 {
-    Json json;
+    Bapi::Json json;
     if (text == "")
     {
-        return Json::parse("{}");
+        return Bapi::Json::parse("{}");
     }
     else
     {
         try
         {
             // parsing input with a syntax error
-            json = Json::parse(text);
+            json = Bapi::Json::parse(text);
         }
-        catch (Json::parse_error& e)
+        catch (Bapi::Json::parse_error& e)
         {
             // output exception information
             std::cout << "message: " << e.what() << '\n' << "exception id: " << e.id << '\n' << "byte position of error: " << e.byte << std::endl;
@@ -31,14 +31,14 @@ Json BinJson::parse(std::string text)
     return json;
 }
 
-std::string BinJson::toString(Json json)
+std::string BinJson::toString(Bapi::Json json)
 {
     if (json.is_string())
         return json.get<std::string>();
     return "";
 }
 
-double BinJson::toDouble(Json json)
+double BinJson::toDouble(Bapi::Json json)
 {
     if (json.is_number())
         return json.get<double>();
@@ -48,7 +48,7 @@ double BinJson::toDouble(Json json)
     return 0;
 }
 
-unsigned long long BinJson::toULongLong(Json json)
+unsigned long long BinJson::toULongLong(Bapi::Json json)
 {
     if (json.is_number())
         return json.get<unsigned long long>();
@@ -58,7 +58,7 @@ unsigned long long BinJson::toULongLong(Json json)
     return 0;
 }
 
-unsigned long BinJson::toULong(Json json)
+unsigned long BinJson::toULong(Bapi::Json json)
 {
     if (json.is_number())
         return json.get<unsigned long>();
@@ -67,7 +67,7 @@ unsigned long BinJson::toULong(Json json)
 
     return 0;
 }
-long BinJson::toLong(Json json)
+long BinJson::toLong(Bapi::Json json)
 {
     if (json.is_number())
         return json.get<long>();
@@ -77,7 +77,7 @@ long BinJson::toLong(Json json)
     return 0;
 }
 
-int BinJson::toInt(Json json)
+int BinJson::toInt(Bapi::Json json)
 {
     if (json.is_number())
         return json.get<int>();
@@ -87,7 +87,7 @@ int BinJson::toInt(Json json)
     return 0;
 }
 
-bool BinJson::toBool(Json json) {
+bool BinJson::toBool(Bapi::Json json) {
     if (json.is_boolean())
         return json.get<bool>();
 

@@ -1,13 +1,15 @@
 #ifndef WXBINANCEAPI_H
 #define WXBINANCEAPI_H
 
-#pragma once
+#include "rest/futuresrestapi.h"
 
 class WxBinanceApi
 {
 public:
     WxBinanceApi();
     ~WxBinanceApi();
+
+    FuturesRestApi *fapi;
 
 private:
 
