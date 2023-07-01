@@ -26,6 +26,7 @@ include(${wxWidgets_USE_FILE})
 
 file(GLOB project
     *
+    data/*
 )
 
 add_library(${PROJECT_NAME} STATIC ${project})
