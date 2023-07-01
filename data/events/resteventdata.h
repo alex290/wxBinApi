@@ -26,6 +26,10 @@ public:
     {
         return data_;
     };
+    RestEventData::TypeRestEvent GetTypeREST()
+    {
+        return typeRest_;
+    }
 
     // implement the base class pure virtual
     virtual wxEvent* Clone() const

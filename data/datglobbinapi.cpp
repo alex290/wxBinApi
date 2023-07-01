@@ -39,7 +39,7 @@ std::string DatGlobBinApi::hmacEncode(std::string param, std::string secret)  //
 
 void DatGlobBinApi::GetUrl(std::string idRequest, std::string url)
 {
-    std::cout << idRequest << std::endl;
+    // std::cout << idRequest << std::endl;
     network->GetRequest(url, idRequest);
 }
 
