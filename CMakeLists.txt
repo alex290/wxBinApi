@@ -23,11 +23,15 @@ find_package(Boost REQUIRED)
 find_package(OpenSSL REQUIRED)
 find_package(wxWidgets REQUIRED COMPONENTS net core base)
 include(${wxWidgets_USE_FILE})
+find_package(CURL REQUIRED)
 
 file(GLOB project
     *
     data/*
+    data/events*
     data/dopformat/*
+    data/network/*
+    rest/*
 )
 
 add_library(${PROJECT_NAME} STATIC ${project})
@@ -61,4 +65,12 @@ if(Boost_FOUND)
     # message(STATUS "Found BOOST ${Boost_VERSION_STRING}")
 else()
     message(STATUS "WEBSOCKET BOOST Not Found")
+endif()
+
+if(CURL_FOUND)
+    target_include_directories(${PROJECT_NAME} PUBLIC ${CURL_INCLUDE_DIR})
+    target_link_libraries(${PROJECT_NAME} ${CURL_LIBRARIES})
+    # message(STATUS "Found CURL ${CURL_VERSION_STRING}")
+else()
+    message(STATUS "NETWORK CURL Not Found")
 endif()
