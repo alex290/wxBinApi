@@ -27,6 +27,7 @@ include(${wxWidgets_USE_FILE})
 file(GLOB project
     *
     data/*
+    data/dopformat/*
 )
 
 add_library(${PROJECT_NAME} STATIC ${project})
