@@ -1,7 +1,7 @@
 #include "futuresrestapi.h"
 
-// wxDEFINE_EVENT(BAPI_RET_DATA, bapiJsonEvent);
-// wxDEFINE_EVENT(BAPI_RET_ERROR, bapiJsonEvent);
+wxDEFINE_EVENT(BAPI_RET_DATA, RestEventData);
+wxDEFINE_EVENT(BAPI_RET_ERROR, RestEventData);
 
 FuturesRestApi::FuturesRestApi(DatGlobBinApi* data) : dataGlobal(data)
 {

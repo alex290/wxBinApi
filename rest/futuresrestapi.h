@@ -2,11 +2,11 @@
 #define FUTURESRESTAPI_H
 
 #include "../data/network/binapinetwork.h"
-// #include "../data/events/bapijsonevent.h"
+#include "../data/events/resteventdata.h"
 #include "../data/datglobbinapi.h"
 
-// wxDECLARE_EVENT(BAPI_RET_DATA, bapiJsonEvent);
-// wxDECLARE_EVENT(BAPI_RET_ERROR, bapiJsonEvent);
+wxDECLARE_EVENT(BAPI_RET_DATA, RestEventData);
+wxDECLARE_EVENT(BAPI_RET_ERROR, RestEventData);
 
 class FuturesRestApi : public wxEvtHandler
 {

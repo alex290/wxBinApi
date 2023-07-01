@@ -6,13 +6,6 @@
 class BapiMarketData
 {
 public:
-    enum TypeRestEvent
-    {
-        NONE,
-        PING,
-        CheckServerTime,
-        ExchangeInformation
-    };
     struct CandlestickDataMarket  // Kline/candlestick bars for a symbol. Klines are uniquely identified by their open time
     {
         time_t openTime;             // Open time
