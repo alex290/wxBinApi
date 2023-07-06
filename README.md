@@ -31,6 +31,8 @@ binApi->fapi->Bind(BAPI_RET_DATA, &<Название текущего класс
 * RestEventData::TypeRestEvent::PING                // https://binance-docs.github.io/apidocs/futures/en/#test-connectivity
 * RestEventData::TypeRestEvent::CheckServerTime     // https://binance-docs.github.io/apidocs/futures/en/#check-server-time
 * RestEventData::TypeRestEvent::ExchangeInformation // https://binance-docs.github.io/apidocs/futures/en/#exchange-information
+* RestEventData::TypeRestEvent::CandlestickData     // https://binance-docs.github.io/apidocs/futures/en/#kline-candlestick-data
+* RestEventData::TypeRestEvent::OrderBook           // https://binance-docs.github.io/apidocs/futures/en/#order-book
 
 ### Функция получения событий
 
