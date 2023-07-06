@@ -42,3 +42,11 @@ void <Название текущего класса>::LoadData(RestEventData& e
       std::cout << event.GetTypeREST() << std::endl; // Вывод Тип данных REST
 }
 ```
+
+### Зпуск запроса
+
+`binApi->fapi->exchangeInfo();` // https://binance-docs.github.io/apidocs/futures/en/#exchange-information
+
+`binApi->fapi->candlestickData("<symbol>", "<interval>", <limit>);` // https://binance-docs.github.io/apidocs/futures/en/#kline-candlestick-data
+
+`binApi->fapi->orderBook("<symbol>", <limit>);` // https://binance-docs.github.io/apidocs/futures/en/#order-book
