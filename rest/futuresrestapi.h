@@ -16,10 +16,13 @@ public:
     void exchangeInfo();  // https://binance-docs.github.io/apidocs/futures/en/#exchange-information
 
     // https://binance-docs.github.io/apidocs/futures/en/#order-book
-    void orderBook(std::string symbols);  // Данные стакана (книга заявок)
+    void orderBook(std::string symbols, int limit = 0);  // Данные стакана (книга заявок)
 
     // https://binance-docs.github.io/apidocs/futures/en/#kline-candlestick-data
-    void candlestickData(std::string symbols); // Свечные данные
+    // Свечные данные
+    void candlestickData(std::string symbols,  // Название инструмента
+                         std::string inerval,  // Период
+                         int limit);           // количество свечей
 
 private:
     DatGlobBinApi* dataGlobal;

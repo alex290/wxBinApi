@@ -46,13 +46,33 @@ void DatGlobBinApi::GetUrl(std::string idRequest, std::string url)
 void DatGlobBinApi::returnData(BinApiNetworkEvent& event)
 {
     std::vector<std::string> idReq = FormatDop::splitStr(event.getIdRequest(), "_");
-    if (idReq.size() == 2)
+    if (idReq.size() > 1)
     {
         if (idReq[0] == "FAPI")  // Возвращаем данные в класс FuturesRestApi
         {
+            Bapi::Json jsData;
+
             Bapi::Json data = BinJson::parse(event.getData());
             RestEventData::TypeRestEvent typeRest = static_cast<RestEventData::TypeRestEvent>(std::stoi(idReq[1]));
-            fapiRet(data, typeRest);
+            if (typeRest == RestEventData::TypeRestEvent::CandlestickData && idReq.size() > 4)
+            {
+                jsData["symbol"] = idReq[2];
+                jsData["interval"] = idReq[3];
+                jsData["limit"] = idReq[4];
+                jsData["data"] = data;
+            }
+            else if (typeRest == RestEventData::TypeRestEvent::OrderBook && idReq.size() > 3)
+            {
+                jsData["symbol"] = idReq[2];
+                jsData["limit"] = idReq[3];
+                jsData["data"] = data;
+            }
+            else
+            {
+                jsData = data;
+            }
+
+            fapiRet(jsData, typeRest);
         }
     }
 }

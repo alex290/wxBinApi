@@ -21,13 +21,31 @@ void FuturesRestApi::exchangeInfo()  // https://binance-docs.github.io/apidocs/f
 }
 
 // https://binance-docs.github.io/apidocs/futures/en/#order-book
-void FuturesRestApi::orderBook(std::string symbols)  // Данные стакана (книга заявок)
+void FuturesRestApi::orderBook(std::string symbols, int limit)  // Данные стакана (книга заявок)
 {
+    std::string url = "https://fapi.binance.com/fapi/v1/depth?symbol=" + symbols;
+    std::string idReq = "FAPI_" + std::to_string(static_cast<int>(RestEventData::TypeRestEvent::OrderBook)) + "_" + symbols;
+    if (limit > 0)
+    {
+        url += "&limit=" + std::to_string(limit);
+        idReq += "_" + std::to_string(limit);
+    }
+    else
+    {
+        idReq += "_0";
+    }
+
+    dataGlobal->GetUrl(idReq, url);
 }
 
 // https://binance-docs.github.io/apidocs/futures/en/#kline-candlestick-data
-void FuturesRestApi::candlestickData(std::string symbols)  // Свечные данные
+void FuturesRestApi::candlestickData(std::string symbols,  // Название инструмента
+                                     std::string inerval,  // Период
+                                     int limit)            // количество свечей
 {
+    std::string url = "https://fapi.binance.com/fapi/v1/klines?symbol=" + symbols + "&interval=" + inerval + "&limit=" + std::to_string(limit);
+    std::string idReq = "FAPI_" + std::to_string(static_cast<int>(RestEventData::TypeRestEvent::CandlestickData)) + "_" + symbols + "_" + inerval + "_"+ std::to_string(limit);
+    dataGlobal->GetUrl(idReq, url);
 }
 
 void FuturesRestApi::fapiRet(Bapi::Json jsData, RestEventData::TypeRestEvent typeRest)

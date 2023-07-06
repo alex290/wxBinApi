@@ -13,7 +13,9 @@ public:
         NONE,
         PING,
         CheckServerTime,
-        ExchangeInformation
+        ExchangeInformation,
+        CandlestickData,
+        OrderBook
     };
     RestEventData(wxEventType eventType, std::string text, Bapi::Json data, RestEventData::TypeRestEvent typeRest) : wxEvent(wxID_ANY, eventType), text_(text), data_(data), typeRest_(typeRest)
     {
