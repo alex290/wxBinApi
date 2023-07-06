@@ -20,6 +20,16 @@ void FuturesRestApi::exchangeInfo()  // https://binance-docs.github.io/apidocs/f
     dataGlobal->GetUrl(idReq, url);
 }
 
+// https://binance-docs.github.io/apidocs/futures/en/#order-book
+void FuturesRestApi::orderBook(std::string symbols)  // Данные стакана (книга заявок)
+{
+}
+
+// https://binance-docs.github.io/apidocs/futures/en/#kline-candlestick-data
+void FuturesRestApi::candlestickData(std::string symbols)  // Свечные данные
+{
+}
+
 void FuturesRestApi::fapiRet(Bapi::Json jsData, RestEventData::TypeRestEvent typeRest)
 {
     // std::cout << typeRest << std::endl;
