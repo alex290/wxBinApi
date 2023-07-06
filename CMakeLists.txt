@@ -32,6 +32,7 @@ file(GLOB project
     data/dopformat/*
     data/network/*
     rest/*
+    websocket/*
 )
 
 add_library(${PROJECT_NAME} STATIC ${project})

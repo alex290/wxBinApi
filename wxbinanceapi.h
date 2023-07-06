@@ -3,6 +3,7 @@
 
 #include "rest/futuresrestapi.h"
 #include "data/datglobbinapi.h"
+#include "websocket/futureswebsocket.h"
 
 class WxBinanceApi
 {
@@ -11,6 +12,7 @@ public:
     ~WxBinanceApi();
 
     FuturesRestApi* fapi;
+    FuturesWebSocket* fWebsocket;
 
 private:
     DatGlobBinApi* dataGlobal;
