@@ -33,6 +33,7 @@ file(GLOB project
     data/network/*
     rest/*
     websocket/*
+    websocket/ws/*
 )
 
 add_library(${PROJECT_NAME} STATIC ${project})
