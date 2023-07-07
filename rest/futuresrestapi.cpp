@@ -43,8 +43,19 @@ void FuturesRestApi::candlestickData(std::string symbols,  // Название �
                                      std::string inerval,  // Период
                                      int limit)            // количество свечей
 {
-    std::string url = "https://fapi.binance.com/fapi/v1/klines?symbol=" + symbols + "&interval=" + inerval + "&limit=" + std::to_string(limit);
-    std::string idReq = "FAPI_" + std::to_string(static_cast<int>(RestEventData::TypeRestEvent::CandlestickData)) + "_" + symbols + "_" + inerval + "_"+ std::to_string(limit);
+    std::string url = "https://fapi.binance.com/fapi/v1/klines?symbol=" + symbols + "&interval=" + inerval;
+    std::string idReq = "FAPI_" + std::to_string(static_cast<int>(RestEventData::TypeRestEvent::CandlestickData)) + "_" + symbols + "_" + inerval;
+
+    if (limit > 0)
+    {
+        url += "&limit=" + std::to_string(limit);
+        idReq += "_" + std::to_string(limit);
+    }
+    else
+    {
+        idReq += "_0";
+    }
+
     dataGlobal->GetUrl(idReq, url);
 }
 

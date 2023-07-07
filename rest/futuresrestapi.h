@@ -15,17 +15,21 @@ public:
 
     void exchangeInfo();  // https://binance-docs.github.io/apidocs/futures/en/#exchange-information
 
-    // https://binance-docs.github.io/apidocs/futures/en/#order-book
-    // Valid limits:[5, 10, 20, 50, 100, 500, 1000]
+    /*
+     * https://binance-docs.github.io/apidocs/futures/en/#order-book
+     * Default 500; Valid limits:[5, 10, 20, 50, 100, 500, 1000]
+     */
     void orderBook(std::string symbols, int limit = 0);  // Данные стакана (книга заявок)
 
-    // https://binance-docs.github.io/apidocs/futures/en/#kline-candlestick-data
-    // Свечные данные
-    // interval 1m, 3m, 5m, 15m, 30m, 1h, 2h, 4h, 6h, 8h, 12h, 1d, 3d, 1w, 1M
-    // limit; max 1500.
+    /*
+     * https://binance-docs.github.io/apidocs/futures/en/#kline-candlestick-data
+     * Свечные данные
+     * interval 1m, 3m, 5m, 15m, 30m, 1h, 2h, 4h, 6h, 8h, 12h, 1d, 3d, 1w, 1M
+     * limit; Default 500; max 1500..
+     */
     void candlestickData(std::string symbols,  // Название инструмента
                          std::string inerval,  // Период
-                         int limit);           // количество свечей
+                         int limit = 0);       // количество свечей
 
 private:
     DatGlobBinApi* dataGlobal;
