@@ -1,15 +1,18 @@
 #include "futureswebsocket.h"
 
 wxDEFINE_EVENT(WSBAPI_KLINE_DATA, LKInesEvent);
+wxDEFINE_EVENT(WSBAPI_DIFF_DEPTH_DATA, DiffDepthEvent);
 
 FuturesWebSocket::FuturesWebSocket(DatGlobBinApi* data) : dataGlobal(data)
 {
     kLineWs = nullptr;
+    diffDepthWs = nullptr;
 }
 
 FuturesWebSocket::~FuturesWebSocket()
 {
     delete kLineWs;
+    delete diffDepthWs;
 }
 
 // https://binance-docs.github.io/apidocs/futures/en/#kline-candlestick-streams
@@ -26,11 +29,10 @@ void FuturesWebSocket::klines(std::vector<std::string> symbols, std::string iner
 // https://binance-docs.github.io/apidocs/futures/en/#diff-book-depth-streams
 void FuturesWebSocket::diffDepth(std::vector<std::string> symbols, int speed)  // Запуск данных стакана (книга заявок)
 {
-    q.push(std::async(std::launch::async, [symbols, speed, this] { diffDepthAsync(symbols, speed); }));
-}
-
-void FuturesWebSocket::diffDepthAsync(std::vector<std::string> symbols, int speed)
-{
+    delete diffDepthWs;
+    diffDepthWs = new DiffBookDepthWebSocket(dataGlobal);
+    diffDepthWs->streamData = [this](std::string data) { StreamDataDiffDept(data); };
+    diffDepthWs->Start(symbols, speed);
 }
 
 void FuturesWebSocket::StreamDataKline(std::string data)
@@ -67,4 +69,8 @@ void FuturesWebSocket::StreamDataKline(std::string data)
     event.SetEventObject(this);
     ProcessEvent(event);
     // wxPostEvent(this, event);
+}
+
+void FuturesWebSocket::StreamDataDiffDept(std::string data) {
+    
 }

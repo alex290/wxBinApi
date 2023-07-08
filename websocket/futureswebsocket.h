@@ -4,8 +4,11 @@
 #include "../data/datglobbinapi.h"
 #include "wsstream/lkineswebsocket.h"
 #include "../data/events/lkinesevent.h"
+#include "../data/events/diffdepthevent.h"
+#include "wsstream/diffbookdepthwebsocket.h"
 
 wxDECLARE_EVENT(WSBAPI_KLINE_DATA, LKInesEvent);
+wxDECLARE_EVENT(WSBAPI_DIFF_DEPTH_DATA, DiffDepthEvent);
 
 class FuturesWebSocket : public wxEvtHandler
 {
@@ -31,13 +34,13 @@ private:
     DatGlobBinApi* dataGlobal;
     std::queue<std::future<void>> q;
     LKInesWebSocket *kLineWs;
+    DiffBookDepthWebSocket *diffDepthWs;
 
     std::vector<std::string> symbols_;
     std::string inerval_;
 
-    void diffDepthAsync(std::vector<std::string> symbols, int speed);
-
     void StreamDataKline(std::string sym);
+    void StreamDataDiffDept(std::string data);
 
 };
 
