@@ -4,10 +4,10 @@ LKInesWebSocket::LKInesWebSocket(DatGlobBinApi* data) : dataGlobal(data)
 {
     ws = new LoadStreamData(15);
     startLoad = false;
-    ws->Bind(WSBAPI_RET_DATA, &LKInesWebSocket::ReadData, this);
     ws->Bind(WSBAPI_RET_ERROR, &LKInesWebSocket::Error, this);
     ws->Bind(WSBAPI_RET_CLOSE, &LKInesWebSocket::Close, this);
     ws->Bind(WSBAPI_RET_CONNECT, &LKInesWebSocket::Connect, this);
+    ws->streamData = [this](std::string data) { ReadData(data); };
 }
 
 LKInesWebSocket::~LKInesWebSocket()
@@ -20,33 +20,22 @@ LKInesWebSocket::~LKInesWebSocket()
 
 void LKInesWebSocket::Start(std::vector<std::string>& symbols, std::string& inerval)  // Запуск свечных данных Websocket
 {
-    symbols_ = symbols;
-    inerval_ = inerval;
-
-    if (startLoad) // Если уже идет загрузка то закрываем
+    std::string baseUrlFut = "/stream?streams=";
+    for (size_t i = 0; i < symbols.size(); i++)
     {
-        ws->closeSocket();
-    }
-    else
-    {
-        std::string baseUrlFut = "/stream?streams=";
-        for (size_t i = 0; i < symbols.size(); i++)
+        if (i > 0)
         {
-            if (i > 0)
-            {
-                baseUrlFut = baseUrlFut + "/";
-            }
-            baseUrlFut = baseUrlFut + FormatDop::str_tolower(symbols[i]) + "@kline_" + inerval;
+            baseUrlFut = baseUrlFut + "/";
         }
-        ws->startSocket("fstream.binance.com", baseUrlFut);
-        startLoad = true;
-        std::cout << "Start klines - symbols: " << baseUrlFut << std::endl;
+        baseUrlFut = baseUrlFut + FormatDop::str_tolower(symbols[i]) + "@kline_" + inerval;
     }
+    std::cout << "Start klines - symbols: " << baseUrlFut << std::endl;
+    ws->startSocket("fstream.binance.com", baseUrlFut);
+    startLoad = true;
 }
-void LKInesWebSocket::ReadData(WsReadEvent& even)
+void LKInesWebSocket::ReadData(std::string data)
 {
-    Bapi::Json data = BinJson::parse(even.getData());
-    std::cout << data.dump() << std::endl;
+    streamData(data);
 }
 
 void LKInesWebSocket::Error(WsReadEvent& even)
@@ -56,7 +45,6 @@ void LKInesWebSocket::Error(WsReadEvent& even)
 void LKInesWebSocket::Close(WsReadEvent& even)
 {
     std::cout << "Close" << std::endl;
-    startLoad = false;
 }
 
 void LKInesWebSocket::Connect(WsReadEvent& even)

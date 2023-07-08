@@ -10,6 +10,8 @@ public:
     LKInesWebSocket(DatGlobBinApi* data);
     ~LKInesWebSocket();
 
+    std::function<void(std::string)> streamData;
+
     void Start(std::vector<std::string> &symbols, std::string &inerval);
 
 private:
@@ -17,13 +19,12 @@ private:
     LoadStreamData* ws;
 
     bool startLoad;
-    std::vector<std::string> symbols_;
-    std::string inerval_;
 
-    void ReadData(WsReadEvent& even);
+    void ReadData(std::string data);
     void Error(WsReadEvent& even);
     void Close(WsReadEvent& even);
     void Connect(WsReadEvent& even);
+
 };
 
 #endif

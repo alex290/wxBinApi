@@ -3,6 +3,9 @@
 
 #include "../data/datglobbinapi.h"
 #include "wsstream/lkineswebsocket.h"
+#include "../data/events/lkinesevent.h"
+
+wxDECLARE_EVENT(WSBAPI_KLINE_DATA, LKInesEvent);
 
 class FuturesWebSocket : public wxEvtHandler
 {
@@ -30,6 +33,8 @@ private:
     LKInesWebSocket *kLineWs;
 
     void diffDepthAsync(std::vector<std::string> symbols, int speed);
+
+    void StreamDataKline(std::string sym);
 
 };
 

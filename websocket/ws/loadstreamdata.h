@@ -12,7 +12,6 @@
 #include <wx/event.h>
 #include "../../data/events/wsreadevent.h"
 
-wxDECLARE_EVENT(WSBAPI_RET_DATA, WsReadEvent);
 wxDECLARE_EVENT(WSBAPI_RET_ERROR, WsReadEvent);
 wxDECLARE_EVENT(WSBAPI_RET_CLOSE, WsReadEvent);
 wxDECLARE_EVENT(WSBAPI_RET_CONNECT, WsReadEvent);
@@ -23,6 +22,8 @@ public:
     LoadStreamData(int timeout);
     LoadStreamData();
     ~LoadStreamData();
+
+    std::function<void(std::string)> streamData;
 
     void startSocket(std::string host, std::string port, std::string text);  // Запуск сокета
     void startSocket(std::string host, std::string text);                    // Запуск сокета
@@ -40,6 +41,7 @@ private:
     std::string datGlobal;
     // queue<future<void>> q;
     std::future<void> q;
+    std::queue<std::future<void>> qw;
     bool closed;
 
     void clearSocket();

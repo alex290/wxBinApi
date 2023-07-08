@@ -1,6 +1,5 @@
 #include "loadstreamdata.h"
 
-wxDEFINE_EVENT(WSBAPI_RET_DATA, WsReadEvent);
 wxDEFINE_EVENT(WSBAPI_RET_ERROR, WsReadEvent);
 wxDEFINE_EVENT(WSBAPI_RET_CLOSE, WsReadEvent);
 wxDEFINE_EVENT(WSBAPI_RET_CONNECT, WsReadEvent);
@@ -23,7 +22,8 @@ LoadStreamData::~LoadStreamData()
 
 void LoadStreamData::startSocket(std::string host, std::string port, std::string text)
 {
-    q = std::async(std::launch::async, [host, port, text, this] { this->asyncStart(host, port, text); });
+    // q = std::async(std::launch::async, [host, port, text, this] { this->asyncStart(host, port, text); });
+    qw.push(std::async(std::launch::async, [host, port, text, this] { this->asyncStart(host, port, text); }));
 }
 
 void LoadStreamData::startSocket(std::string host, std::string text)
@@ -40,7 +40,8 @@ void LoadStreamData::closeSocket()
     ioc.stop();
 }
 
-void LoadStreamData::asyncStart(std::string host, std::string port, std::string text) {
+void LoadStreamData::asyncStart(std::string host, std::string port, std::string text)
+{
     ssl::context ctx{ ssl::context::sslv23 };
     ctx.set_verify_mode(ssl::verify_none);
 
@@ -93,14 +94,17 @@ void LoadStreamData::asyncStart(std::string host, std::string port, std::string 
     work.reset();
 }
 
-void LoadStreamData::eventData(std::string data) {
-     WsReadEvent event(WSBAPI_RET_DATA, idSocket, data);
-    event.SetEventObject(this);
-    ProcessEvent(event);
-    // wxPostEvent(this, event);
+void LoadStreamData::eventData(std::string data)
+{
+    streamData(data);
+    // WsReadEvent event(WSBAPI_RET_DATA, idSocket, data);
+    // event.SetEventObject(this);
+    // ProcessEvent(event);
+    // // wxPostEvent(this, event);
 }
 
-void LoadStreamData::eventClose() {
+void LoadStreamData::eventClose()
+{
     // std::cout << "CloSSE" << std::endl;
     WsReadEvent event(WSBAPI_RET_CLOSE, idSocket, "CLOSE");
     event.SetEventObject(this);
@@ -108,14 +112,16 @@ void LoadStreamData::eventClose() {
     // wxPostEvent(this, event);
 }
 
-void LoadStreamData::eventError(std::string data) {
+void LoadStreamData::eventError(std::string data)
+{
     WsReadEvent event(WSBAPI_RET_ERROR, idSocket, data);
     event.SetEventObject(this);
     ProcessEvent(event);
     // wxPostEvent(this, event);
 }
 
-void LoadStreamData::eventConnect() {
+void LoadStreamData::eventConnect()
+{
     WsReadEvent event(WSBAPI_RET_CONNECT, idSocket, "CONNECT");
     event.SetEventObject(this);
     ProcessEvent(event);
