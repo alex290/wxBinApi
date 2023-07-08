@@ -32,6 +32,9 @@ private:
     std::queue<std::future<void>> q;
     LKInesWebSocket *kLineWs;
 
+    std::vector<std::string> symbols_;
+    std::string inerval_;
+
     void diffDepthAsync(std::vector<std::string> symbols, int speed);
 
     void StreamDataKline(std::string sym);

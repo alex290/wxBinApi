@@ -25,6 +25,7 @@ private:
     void Close(WsReadEvent& even);
     void Connect(WsReadEvent& even);
 
+
 };
 
 #endif
