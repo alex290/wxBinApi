@@ -34,6 +34,7 @@ file(GLOB project
     rest/*
     websocket/*
     websocket/ws/*
+    websocket/wsstream/*
 )
 
 add_library(${PROJECT_NAME} STATIC ${project})

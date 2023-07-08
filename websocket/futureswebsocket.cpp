@@ -2,16 +2,18 @@
 
 FuturesWebSocket::FuturesWebSocket(DatGlobBinApi* data) : dataGlobal(data)
 {
+    kLineWs = new LKInesWebSocket(dataGlobal);
 }
 
 FuturesWebSocket::~FuturesWebSocket()
 {
+    delete kLineWs;
 }
 
 // https://binance-docs.github.io/apidocs/futures/en/#kline-candlestick-streams
 void FuturesWebSocket::klines(std::vector<std::string> symbols, std::string inerval)  // Запуск свечных данных Websocket
 {
-    std::cout << "Start klines - symbols: " << symbols[0] << "; interval: " << inerval << std::endl;
+    kLineWs->Start(symbols, inerval);
 }
 
 // https://binance-docs.github.io/apidocs/futures/en/#diff-book-depth-streams

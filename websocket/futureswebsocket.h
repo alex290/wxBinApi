@@ -2,6 +2,7 @@
 #define FUTURESWEBSOCKET_H
 
 #include "../data/datglobbinapi.h"
+#include "wsstream/lkineswebsocket.h"
 
 class FuturesWebSocket : public wxEvtHandler
 {
@@ -26,8 +27,10 @@ public:
 private:
     DatGlobBinApi* dataGlobal;
     std::queue<std::future<void>> q;
+    LKInesWebSocket *kLineWs;
 
     void diffDepthAsync(std::vector<std::string> symbols, int speed);
+
 };
 
 #endif
