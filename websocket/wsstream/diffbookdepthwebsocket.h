@@ -3,6 +3,7 @@
 
 #include "../ws/loadstreamdata.h"
 #include "../../data/datglobbinapi.h"
+#include "datastream/diffbookdepthdata.h"
 
 class DiffBookDepthWebSocket
 {
@@ -16,6 +17,18 @@ public:
 private:
     DatGlobBinApi* dataGlobal;
     LoadStreamData* ws;
+
+    std::vector<std::string> symbols_;
+
+    std::vector<DiffBookDepthData *> diffData;
+
+    bool startLoad;
+
+    void ReadData(std::string data);
+    void Error(WsReadEvent& even);
+    void Close(WsReadEvent& even);
+    void Connect(WsReadEvent& even);
+    void removeData();
 };
 
 #endif

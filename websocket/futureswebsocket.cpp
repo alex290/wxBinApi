@@ -31,7 +31,7 @@ void FuturesWebSocket::diffDepth(std::vector<std::string> symbols, int speed)  /
 {
     delete diffDepthWs;
     diffDepthWs = new DiffBookDepthWebSocket(dataGlobal);
-    diffDepthWs->streamData = [this](std::string data) { StreamDataDiffDept(data); };
+    // diffDepthWs->streamData = [this](std::string data) { StreamDataDiffDept(data); };
     diffDepthWs->Start(symbols, speed);
 }
 
