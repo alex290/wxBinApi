@@ -4,6 +4,8 @@
 #include "../ws/loadstreamdata.h"
 #include "../../data/datglobbinapi.h"
 #include "datastream/diffbookdepthdata.h"
+#include <thread>
+#include <chrono>
 
 class DiffBookDepthWebSocket
 {
@@ -25,6 +27,7 @@ private:
     bool startLoad;
 
     std::queue<std::future<void>> q;
+    std::queue<std::future<void>> qTimer;
 
     void ReadData(std::string data);
     void Error(WsReadEvent& even);
@@ -33,6 +36,9 @@ private:
     void removeData();
 
     void AddNewData(wxCommandEvent& event);
+    bool loadFullStart;
+
+    void TimerLoad();
 };
 
 #endif

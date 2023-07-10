@@ -8,6 +8,7 @@ DiffBookDepthWebSocket::DiffBookDepthWebSocket(DatGlobBinApi* data) : dataGlobal
     ws->Bind(WSBAPI_RET_CLOSE, &DiffBookDepthWebSocket::Close, this);
     ws->Bind(WSBAPI_RET_CONNECT, &DiffBookDepthWebSocket::Connect, this);
     ws->streamData = [this](std::string data) { ReadData(data); };
+    loadFullStart = true;
 }
 
 DiffBookDepthWebSocket::~DiffBookDepthWebSocket()
@@ -57,8 +58,10 @@ void DiffBookDepthWebSocket::ReadData(std::string data)
             if (symbols_[i] == symb && diffData.size() > i)
             {
                 diffData[i]->AddData(dataJs);
-                if (!diffData[i]->getFull())
+                if (!diffData[i]->getFull() && loadFullStart)
                 {
+                    loadFullStart = false;
+                    TimerLoad();
                     diffData[i]->LoadDiffDepth();
                 }
 
@@ -102,4 +105,11 @@ void DiffBookDepthWebSocket::AddNewData(wxCommandEvent& event)
         std::string symbol = diffData[index]->symbol_;
         streamData(symbol, index, dataOrd);
     }
+}
+
+void DiffBookDepthWebSocket::TimerLoad() {
+    qTimer.push(std::async(std::launch::async, [this] {
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        loadFullStart = true;
+    }));
 }
