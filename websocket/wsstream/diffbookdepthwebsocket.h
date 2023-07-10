@@ -24,6 +24,8 @@ private:
 
     bool startLoad;
 
+    std::queue<std::future<void>> q;
+
     void ReadData(std::string data);
     void Error(WsReadEvent& even);
     void Close(WsReadEvent& even);

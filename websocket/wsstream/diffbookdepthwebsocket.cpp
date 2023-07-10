@@ -26,7 +26,7 @@ void DiffBookDepthWebSocket::Start(std::vector<std::string>& symbols, int speed)
     std::string baseUrlFut = "/stream?streams=";
     for (size_t i = 0; i < symbols.size(); i++)
     {
-        diffData[i] = new DiffBookDepthData(dataGlobal, i);
+        diffData[i] = new DiffBookDepthData(dataGlobal, i, symbols[i]);
         if (i > 0)
         {
             baseUrlFut = baseUrlFut + "/";
@@ -45,20 +45,21 @@ void DiffBookDepthWebSocket::Start(std::vector<std::string>& symbols, int speed)
 void DiffBookDepthWebSocket::ReadData(std::string data)
 {
     // std::cout << data << std::endl;
-    Bapi::Json dataJsAll = BinJson::parse(data);
-    Bapi::Json dataJs = dataJsAll["data"];
-    std::string symb = BinJson::toString(dataJs["s"]);
+    q.push(std::async(std::launch::async, [data, this] {
+        Bapi::Json dataJsAll = BinJson::parse(data);
+        Bapi::Json dataJs = dataJsAll["data"];
+        std::string symb = BinJson::toString(dataJs["s"]);
 
-    size_t index = 0;
-    for (size_t i = 0; i < symbols_.size(); i++)
-    {
-        if (symbols_[i] == symb)
+        size_t index = 0;
+        for (size_t i = 0; i < symbols_.size(); i++)
         {
-            index = i;
+            if (symbols_[i] == symb && diffData.size() > i)
+            {
+                diffData[i]->AddData(dataJs);
+                break;
+            }
         }
-    }
-
-    std::cout << symb << "; " << index << std::endl;
+    }));
 }
 
 void DiffBookDepthWebSocket::Error(WsReadEvent& even)
@@ -73,7 +74,8 @@ void DiffBookDepthWebSocket::Close(WsReadEvent& even)
 void DiffBookDepthWebSocket::Connect(WsReadEvent& even)
 {
 }
-void DiffBookDepthWebSocket::removeData() {
+void DiffBookDepthWebSocket::removeData()
+{
     if (diffData.size() > 0)
     {
         for (size_t i = 0; i < diffData.size(); i++)
@@ -81,7 +83,5 @@ void DiffBookDepthWebSocket::removeData() {
             delete diffData[i];
         }
         diffData.clear();
-        
     }
-    
 }
