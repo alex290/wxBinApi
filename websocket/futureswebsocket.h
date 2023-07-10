@@ -40,7 +40,7 @@ private:
     std::string inerval_;
 
     void StreamDataKline(std::string sym);
-    void StreamDataDiffDept(std::string data);
+    void StreamDataDiffDept(std::string symbol, size_t index, DiffDepthEvent::Data data);
 
 };
 

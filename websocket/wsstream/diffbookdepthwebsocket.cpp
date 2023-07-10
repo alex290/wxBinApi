@@ -27,6 +27,7 @@ void DiffBookDepthWebSocket::Start(std::vector<std::string>& symbols, int speed)
     for (size_t i = 0; i < symbols.size(); i++)
     {
         diffData[i] = new DiffBookDepthData(dataGlobal, i, symbols[i]);
+        diffData[i]->Bind(mEVT_TR_DATA, &DiffBookDepthWebSocket::AddNewData, this);
         if (i > 0)
         {
             baseUrlFut = baseUrlFut + "/";
@@ -37,7 +38,7 @@ void DiffBookDepthWebSocket::Start(std::vector<std::string>& symbols, int speed)
             baseUrlFut = baseUrlFut + "@" + std::to_string(speed) + "ms";
         }
     }
-    std::cout << "Start DiffBook - symbols: " << baseUrlFut << std::endl;
+    // std::cout << "Start DiffBook - symbols: " << baseUrlFut << std::endl;
     ws->startSocket("fstream.binance.com", baseUrlFut);
     startLoad = true;
 }
@@ -56,6 +57,11 @@ void DiffBookDepthWebSocket::ReadData(std::string data)
             if (symbols_[i] == symb && diffData.size() > i)
             {
                 diffData[i]->AddData(dataJs);
+                if (!diffData[i]->getFull())
+                {
+                    diffData[i]->LoadDiffDepth();
+                }
+
                 break;
             }
         }
@@ -80,8 +86,20 @@ void DiffBookDepthWebSocket::removeData()
     {
         for (size_t i = 0; i < diffData.size(); i++)
         {
+            diffData[i]->Unbind(mEVT_TR_DATA, &DiffBookDepthWebSocket::AddNewData, this);
             delete diffData[i];
         }
         diffData.clear();
+    }
+}
+
+void DiffBookDepthWebSocket::AddNewData(wxCommandEvent& event)
+{
+    int index = event.GetInt();
+    if (diffData.size() > index)
+    {
+        DiffDepthEvent::Data dataOrd = diffData[index]->dataOrd;
+        std::string symbol = diffData[index]->symbol_;
+        streamData(symbol, index, dataOrd);
     }
 }

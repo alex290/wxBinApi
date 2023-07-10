@@ -31,7 +31,7 @@ void FuturesWebSocket::diffDepth(std::vector<std::string> symbols, int speed)  /
 {
     delete diffDepthWs;
     diffDepthWs = new DiffBookDepthWebSocket(dataGlobal);
-    // diffDepthWs->streamData = [this](std::string data) { StreamDataDiffDept(data); };
+    diffDepthWs->streamData = [this](std::string symbol, size_t index, DiffDepthEvent::Data data) { StreamDataDiffDept(symbol, index, data); };
     diffDepthWs->Start(symbols, speed);
 }
 
@@ -71,6 +71,9 @@ void FuturesWebSocket::StreamDataKline(std::string data)
     // wxPostEvent(this, event);
 }
 
-void FuturesWebSocket::StreamDataDiffDept(std::string data) {
-    
+void FuturesWebSocket::StreamDataDiffDept(std::string symbol, size_t index, DiffDepthEvent::Data data) {
+    DiffDepthEvent event(WSBAPI_DIFF_DEPTH_DATA, symbol, index, data);
+    event.SetEventObject(this);
+    ProcessEvent(event);
+    // wxPostEvent(this, event); 
 }

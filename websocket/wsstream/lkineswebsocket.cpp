@@ -29,7 +29,7 @@ void LKInesWebSocket::Start(std::vector<std::string>& symbols, std::string& iner
         }
         baseUrlFut = baseUrlFut + FormatDop::str_tolower(symbols[i]) + "@kline_" + inerval;
     }
-    std::cout << "Start klines - symbols: " << baseUrlFut << std::endl;
+    // std::cout << "Start klines - symbols: " << baseUrlFut << std::endl;
     ws->startSocket("fstream.binance.com", baseUrlFut);
     startLoad = true;
 }

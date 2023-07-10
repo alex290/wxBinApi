@@ -10,7 +10,7 @@ class DiffBookDepthWebSocket
 public:
     DiffBookDepthWebSocket(DatGlobBinApi* data);
     ~DiffBookDepthWebSocket();
-    std::function<void(std::string)> streamData;
+    std::function<void (std::string, size_t, DiffDepthEvent::Data)> streamData;
 
     void Start(std::vector<std::string> &symbols, int speed);
 
@@ -31,6 +31,8 @@ private:
     void Close(WsReadEvent& even);
     void Connect(WsReadEvent& even);
     void removeData();
+
+    void AddNewData(wxCommandEvent& event);
 };
 
 #endif
