@@ -108,7 +108,7 @@ void DiffBookDepthData::LoadDiffDepth()
             idReq += "_0";
         }
 
-        std::cout << url << std::endl;
+        // std::cout << url << std::endl;
 
         network->GetRequest(url, idReq);
     }
