@@ -109,7 +109,7 @@ void DiffBookDepthWebSocket::AddNewData(wxCommandEvent& event)
 
 void DiffBookDepthWebSocket::TimerLoad() {
     qTimer.push(std::async(std::launch::async, [this] {
-        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        std::this_thread::sleep_for(std::chrono::milliseconds(2000));
         loadFullStart = true;
     }));
 }
